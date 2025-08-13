@@ -3,23 +3,21 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand as={Link} to="/">Gallerian</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/signup">Skapa profil</Nav.Link>
-            <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
-            <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
-          </Nav>
-          <Form className="d-flex">
-            <Form.Control type="search" placeholder="Sök" className="me-2" />
-            <Button variant="outline-success">Sök</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+   <header>
+     
+        <div className="logo-container">
+            <Link to="/">
+                <img src="https://picsum.photos/200" alt="Gallerian Logo" />
+                <h1>Gallerian</h1>
+            </Link>
+        </div>
+        <nav role="navigation">
+          <Link to="/">Home</Link>
+          <Link to="/search">Search</Link>
+      
+      </nav>
+    </header>
+    
   );
 };
 
