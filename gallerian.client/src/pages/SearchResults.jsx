@@ -1,3 +1,5 @@
+import Layout from '../components/Layout';
+
 const SearchResults = () => {
     return (
         <main className="container" aria-label="Search results for art gallery">
@@ -13,6 +15,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Midnight Bloom</h3>
                                 <p className="card-text">Artist: Jane Doe</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Midnight Bloom">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -25,6 +29,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Color Cascade</h3>
                                 <p className="card-text">Artist: John Smith</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Color Cascade">View Details</button>
+                                 {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -37,6 +43,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Whispering Wind</h3>
                                 <p className="card-text">Artist: Emily White</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Whispering Wind">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -49,6 +57,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Urban Jungle</h3>
                                 <p className="card-text">Artist: Alex Chen</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Urban Jungle">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -67,6 +77,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Silver Serenity</h3>
                                 <p className="card-text">Artist: Marco Rossi</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Silver Serenity">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -78,7 +90,8 @@ const SearchResults = () => {
                             <div className="card-body">
                                 <h3 className="card-title">Wired Wonder</h3>
                                 <p className="card-text">Artist: Sarah Miller</p>
-                                <button type="button" className="btn btn-primary" aria-label="View details for Wired Wonder">View Details</button>
+                                <button type="button" className="btn btn-primary" aria-label="View details for Wired Wonder">View Details</button>{/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -91,6 +104,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">Tower of Thought</h3>
                                 <p className="card-text">Artist: David Green</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for Tower of Thought">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
@@ -103,6 +118,8 @@ const SearchResults = () => {
                                 <h3 className="card-title">The City's Canvas</h3>
                                 <p className="card-text">Artist: Maria Rodriguez</p>
                                 <button type="button" className="btn btn-primary" aria-label="View details for The City's Canvas">View Details</button>
+                                {/* NEEDS JAVASCRIPT: This button should only be visible to the artist who uploaded the artwork. It also needs an onClick event handler to trigger the deletion. */}
+                                <button type="button" className="btn btn-danger mt-2" aria-label="Delete this artwork">Delete</button>
                             </div>
                         </div>
                     </article>
