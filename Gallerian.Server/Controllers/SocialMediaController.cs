@@ -2,20 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gallerian.Server.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [Authorize]
+	[ApiController]
     public class SocialMediaController : ControllerBase
     {
         private readonly GallerianContext _context;
         public SocialMediaController(GallerianContext context) => _context = context;
-
-        [HttpGet]
+        [AllowAnonymous]
+		[HttpGet]
         public async Task<ActionResult<IEnumerable<SocialMedia>>> GetSocialMedias() => await _context.SocialMedias.ToListAsync();
-
-        [HttpGet("{userId}")]
+        [AllowAnonymous]
+		[HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<SocialMedia>>> GetSocialMediasByUser(string userId)
         {
             var socialMedias = await _context.SocialMedias.Where(sm => sm.UserId == userId).ToListAsync();
@@ -35,7 +37,12 @@ namespace Gallerian.Server.Controllers
         {
             var socialMedia = await _context.SocialMedias.FirstOrDefaultAsync(sm => sm.UserId == userId && sm.Link == link);
             if (socialMedia == null) return NotFound();
-            _context.SocialMedias.Remove(socialMedia);
+			// Check if the user is authorized to delete this social media link
+            if (socialMedia.UserId != User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value && !User.IsInRole("Admin"))
+            {
+                return Forbid("You are not authorized to delete this social media link.");
+			}
+			_context.SocialMedias.Remove(socialMedia);
             await _context.SaveChangesAsync();
             return NoContent();
         }
