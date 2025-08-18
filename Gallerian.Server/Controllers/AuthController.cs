@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
         if (!result.Succeeded) return BadRequest(result.Errors);
 
         // Optional: add a default role later if you enable roles
-        // await _userManager.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, "User");
 
         return Ok(new { message = "Registered" });
     }
@@ -92,8 +92,8 @@ public class AuthController : ControllerBase
         };
 
         // If you add roles later:
-        // var roles = await _userManager.GetRolesAsync(user);
-        // claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+        var roles = await _userManager.GetRolesAsync(user);
+        claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
