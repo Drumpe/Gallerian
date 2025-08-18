@@ -1,21 +1,25 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gallerian.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+	[Authorize(Roles = "Admin")]
+	public class CategoriesController : ControllerBase
     {
         private readonly GallerianContext _context;
         public CategoriesController(GallerianContext context) => _context = context;
-
-        [HttpGet]
+		
+        [AllowAnonymous]
+		[HttpGet]
         public async Task<ActionResult<IEnumerable<Categories>>> GetCategories() => await _context.Categories.Include(c => c.ArtWorks).ToListAsync();
-
-        [HttpGet("{id}")]
+		
+        [AllowAnonymous]
+		[HttpGet("{id}")]
         public async Task<ActionResult<Categories>> GetCategory(int id)
         {
             var category = await _context.Categories.Include(c => c.ArtWorks).FirstOrDefaultAsync(c => c.Id == id);
