@@ -12,5 +12,6 @@ namespace Gallerian.Server.Models
 		public ICollection<Likes> Likes { get; set; } = new List<Likes>();
 		public ICollection<SocialMedia> SocialMedias { get; set; } = new List<SocialMedia>();
 		public ICollection<ArtWork> ArtWorks { get; set; } = new List<ArtWork>();
-	}
+        public DateTime? Birth { get; set; }
+    }
 }

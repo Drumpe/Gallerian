@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Gallerian.Server.Data
 {
-	public class GallerianContext : IdentityDbContext<IdentityUser>
+	public class GallerianContext : IdentityDbContext<User>
 	{
 		public GallerianContext(DbContextOptions<GallerianContext> options)
 			: base(options)
@@ -19,7 +19,7 @@ namespace Gallerian.Server.Data
 		public DbSet<Gallerian.Server.Models.ArtWork> ArtWork { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Categories> Categories { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Comments> Comments { get; set; } = default!;
-		public DbSet<Gallerian.Server.Models.User> Users { get; set; } = default!;
+		//public DbSet<Gallerian.Server.Models.User> Users { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Likes> Likes { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.SocialMedia> SocialMedias { get; set; } = default!;
 
