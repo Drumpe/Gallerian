@@ -1,11 +1,185 @@
-﻿#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+﻿/* This makes the main content area grow to fill the available space, pushing the footer down. */
+main {
+    flex-grow: 1;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+/* Header & Navigation */
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 1rem;
+}
+
+.logo-container img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.logo-container h1 {
+    color: #00376B;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+header nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+header nav a {
+    color: #00376B;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+header nav a:hover {
+    color: #002A52;
+}
+
+/* Forms & Inputs */
+.form-label {
+    font-weight: 500;
+    color: #00376B;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.5rem;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: #00376B;
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(0, 55, 107, 0.25);
+}
+
+/* Buttons */
+.btn {
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #00376B;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #002A52;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background-color: #B0B7BC;
+    color: #00376B;
+}
+
+.btn-secondary:hover {
+    background-color: #9da3a8;
+    color: #002A52;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+    background-color: #D2000B;
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: #A30009;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Front Page Specifics */
+.welcome-section, .entry-point-section {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.welcome-section {
+    background-color: #ffffff;
+}
+
+.entry-point-section {
+    background-image: linear-gradient(rgba(0, 55, 107, 0.8), rgba(0, 55, 107, 0.8)), url('https://placehold.co/1200x600/00376B/B0B7BC?text=Abstract+Art+Background');
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+}
+
+.entry-point-section h2, .entry-point-section p {
+    color: #ffffff;
+}
+
+.entry-point-section .form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+}
+        
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Footer */
+footer {
+    background-color: #00376B;
+    color: #B0B7BC;
+    padding: 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+footer a {
+    color: #B0B7BC;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+.social-icons {
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    color: #B0B7BC;
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.1);
 }

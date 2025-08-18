@@ -3,11 +3,14 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <main className="container mt-4">{children}</main>
+      {/* The container class now correctly wraps the main content */}
+      <main className="container">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

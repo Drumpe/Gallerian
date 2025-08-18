@@ -22,8 +22,7 @@ namespace Gallerian.Server
 			builder.Services.AddDbContext<GallerianContext>(options =>
 				options.UseSqlServer(builder.Configuration.GetConnectionString("GallerianContext") ?? throw new InvalidOperationException("Connection string 'GallerianContext' not found.")));
 
-			// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<GallerianContext>();
-			// builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<GallerianContext>().AddDefaultTokenProviders();
+
 			
 			// Add services to the container.
 
