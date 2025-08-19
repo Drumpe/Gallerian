@@ -149,14 +149,6 @@ namespace Gallerian.Server.Controllers
             DateTime? Birth 
         );
 
-
-
-
-
-
-
-
-
     }
 
 }
