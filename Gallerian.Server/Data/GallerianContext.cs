@@ -19,7 +19,7 @@ namespace Gallerian.Server.Data
 		public DbSet<Gallerian.Server.Models.ArtWork> ArtWork { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Categories> Categories { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Comments> Comments { get; set; } = default!;
-		//public DbSet<Gallerian.Server.Models.User> Users { get; set; } = default!;
+		public DbSet<Gallerian.Server.Models.User> Users { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.Likes> Likes { get; set; } = default!;
 		public DbSet<Gallerian.Server.Models.SocialMedia> SocialMedias { get; set; } = default!;
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
+using Gallerian.Server.Models.Dtos;
 
 namespace Gallerian.Server.Controllers
 {
@@ -23,9 +24,33 @@ namespace Gallerian.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ArtWork>> PostArtWork(ArtWork artWork)
+        public async Task<ActionResult<ArtWork>> PostArtWork([FromBody] ArtWorkDto dto)
         {
-            _context.ArtWork.Add(artWork);
+            if (dto == null) return BadRequest("ArtWork data is null");
+            var artWork = new ArtWork
+            {
+                UserId = dto.UserId,
+				Title = dto.Title,
+                Description = dto.Description,
+                ImageURL = dto.ImageURL,
+				UploadDate = DateTime.Now,
+                Private = (bool)dto.Private,
+                ForSale = (bool)dto.ForSale,
+				Categories = new List<Categories>(),
+                Comments = new List<Comments>() 
+            };
+            if (dto.CategoryIds != null)
+            {
+                foreach (var category in dto.CategoryIds)
+                {
+                    var existingCategory = await _context.Categories.FindAsync(category);
+                    if (existingCategory != null)
+                    {
+                        artWork.Categories.Add(existingCategory);
+                    }
+                }
+			}
+			_context.ArtWork.Add(artWork);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetArtWork), new { id = artWork.Id }, artWork);
         }

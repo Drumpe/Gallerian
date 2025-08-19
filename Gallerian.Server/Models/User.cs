@@ -4,8 +4,6 @@ namespace Gallerian.Server.Models
 {
 	public class User : IdentityUser
 	{
-		//public string Password { get; set; }
-		//public string Role { get; set; } = "User";
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
 		public DateTime LastLogin { get; set; } = DateTime.Now;
 		public ICollection<Comments> Comments { get; set; } = new List<Comments>();
