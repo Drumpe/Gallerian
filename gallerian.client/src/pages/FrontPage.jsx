@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const FrontPage = () => {
     return (
         <main>
@@ -13,8 +15,6 @@ const FrontPage = () => {
                 </div>
                 <p className="mt-4">Ready to explore? Log in or Sign up.</p>
                 <div className="button-container d-flex justify-content-center gap-3">
-                    <button type="button" className="btn btn-secondary">Log In</button>
-                    <button type="button" className="btn btn-primary">Sign Up</button>
                 </div>
             </section>
         </main>
