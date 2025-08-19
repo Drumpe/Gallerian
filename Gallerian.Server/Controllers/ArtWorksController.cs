@@ -73,5 +73,20 @@ namespace Gallerian.Server.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<ArtWork>>> SearchArtWorks([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest("Query is required.");
+
+            var results = await _context.ArtWork
+                .Include(a => a.Categories)
+                .Include(a => a.Comments)
+                .Where(a => a.Title.Contains(query) || a.Description.Contains(query))
+                .ToListAsync();
+
+            return results;
+        }
     }
 }
