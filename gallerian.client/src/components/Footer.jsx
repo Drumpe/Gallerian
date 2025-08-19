@@ -1,19 +1,35 @@
+import React from 'react';
+import '../styling/Footer.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faLinkedin, faYoutube } from '@fortawesome/free-brands-svg-icons';
+
 const Footer = () => {
   return (
-  <footer>
-        <address>
-            <p>
-                <strong>Gallerian</strong><br />
-                123 Turning Torso Väg<br />
-                Malmö, Sverige 12345<br />
-                <a href="mailto:youremail@gallerian.se">youremail@gallerian.se</a>
-            </p>
+    <footer className="footer" role="contentinfo">
+      <div className="footer-content">
+        <address className="footer-address">
+          <strong>Gallerian</strong>
+          <br />
+          123 Turning Torso Väg
+          <br />
+          Malmö, Sverige 12345
+          <br />
+          <a href="mailto:youremail@gallerian.se">youremail@gallerian.se</a>
         </address>
-         <div className="social-icons">
-        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+        <div className="footer-social">
+          <a href="#" aria-label="Gallerian on Facebook">
+            <FontAwesomeIcon icon={faFacebook} />
+          </a>
+          <a href="#" aria-label="Gallerian on Instagram">
+            <FontAwesomeIcon icon={faInstagram} />
+          </a>
+          <a href="#" aria-label="Gallerian on LinkedIn">
+            <FontAwesomeIcon icon={faLinkedin} />
+          </a>
+          <a href="#" aria-label="Gallerian on YouTube">
+            <FontAwesomeIcon icon={faYoutube} />
+          </a>
+        </div>
       </div>
     </footer>
   );

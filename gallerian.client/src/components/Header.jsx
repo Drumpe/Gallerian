@@ -1,23 +1,39 @@
-import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
+import "../styling/Header.css";
 
 const Header = () => {
+  const { user, handleLogout } = useContext(UserContext);
+
   return (
-   <header>
-     
-        <div className="logo-container">
-            <Link to="/">
-                <img src="https://picsum.photos/200" alt="Gallerian Logo" />
-                <h1>Gallerian</h1>
-            </Link>
+    <header className="header" role="banner">
+      <nav className="header-nav" aria-label="Main navigation">
+        <div className="logo-and-search">
+          <div className="logo-container">
+            <span className="site-name">Gallerian</span>
+          </div>
+          <Link to="/search" className="search-link" aria-label="Search all artwork on Gallerian">
+            <span className="search-text">SEARCH</span>
+          </Link>
         </div>
-        <nav role="navigation">
-          <Link to="/">Home</Link>
-          <Link to="/search">Search</Link>
-      
+        <div className="auth-links">
+          {user ? (
+            <>
+              <span className="user-greeting">Welcome, {user.userName}</span>
+              <button onClick={handleLogout} className="btn btn-primary" aria-label="Log out of your account">
+                Log Out
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="btn btn-primary" aria-label="Log in to your account">
+              Log In
+            </Link>
+          )}
+        </div>
       </nav>
     </header>
-    
   );
 };
 

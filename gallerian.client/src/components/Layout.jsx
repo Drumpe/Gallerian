@@ -1,17 +1,17 @@
-import Header from './Header';
-import Footer from './Footer';
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const Layout = ({ children }) => {
-  return (
-    <div className="app-container">
-      <Header />
-      {/* The container class now correctly wraps the main content */}
-      <main className="container">
-        {children}
-      </main>
-      <Footer />
-    </div>
-  );
+const Layout = () => {
+    return (
+        <>
+            <Header />
+            <div className="content">
+                <Outlet />
+            </div>
+            <Footer />
+        </>
+    );
 };
 
 export default Layout;
