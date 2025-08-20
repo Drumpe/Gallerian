@@ -14,30 +14,53 @@ namespace Gallerian.Server.Controllers
         public ArtWorksController(GallerianContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArtWork>>> GetArtWorks() => await _context.ArtWork.Include(a => a.Categories).Include(a => a.Comments).ToListAsync();
+        public async Task<ActionResult<IEnumerable<ArtWorkDto>>> GetArtWorks()  
+        {
+            var artworks = await _context.ArtWork.Include(a => a.Categories).ToListAsync();
+            return artworks.Select(a => new ArtWorkDto {
+                Id = a.Id,
+                UserId = a.UserId,
+                Title = a.Title,
+                ImageURL = a.ImageURL,
+                Description = a.Description,
+                Private = a.Private,
+                ForSale = a.ForSale,
+                CategoryIds = a.Categories.Select(c => c.Id).ToList()
+            }).ToList();
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ArtWork>> GetArtWork(int id)
+        public async Task<ActionResult<ArtWorkDto>> GetArtWork(int id)
         {
-            var artWork = await _context.ArtWork.Include(a => a.Categories).Include(a => a.Comments).FirstOrDefaultAsync(a => a.Id == id);
-            return artWork == null ? NotFound() : artWork;
+            var a = await _context.ArtWork.Include(a => a.Categories).FirstOrDefaultAsync(a => a.Id == id);
+            if (a == null) return NotFound();
+            return new ArtWorkDto {
+                Id = a.Id,
+				UserId = a.UserId,
+                Title = a.Title,
+                ImageURL = a.ImageURL,
+                Description = a.Description,
+                Private = a.Private,
+                ForSale = a.ForSale,
+                CategoryIds = a.Categories.Select(c => c.Id).ToList()
+            };
         }
 
         [HttpPost]
-        public async Task<ActionResult<ArtWork>> PostArtWork([FromBody] ArtWorkDto dto)
+        public async Task<ActionResult<ArtWorkDto>> PostArtWork([FromBody] ArtWorkDto dto)
         {
             if (dto == null) return BadRequest("ArtWork data is null");
             var artWork = new ArtWork
             {
                 UserId = dto.UserId,
-				Title = dto.Title,
+                Title = dto.Title,
                 Description = dto.Description,
                 ImageURL = dto.ImageURL,
-				UploadDate = DateTime.Now,
-                Private = (bool)dto.Private,
-                ForSale = (bool)dto.ForSale,
-				Categories = new List<Categories>(),
-                Comments = new List<Comments>() 
+                UploadDate = DateTime.Now,
+                Private = dto.Private ?? false,
+                ForSale = dto.ForSale ?? false,
+                Categories = new List<Categories>(),
+                Comments = new List<Comments>()
             };
             if (dto.CategoryIds != null)
             {
@@ -49,29 +72,47 @@ namespace Gallerian.Server.Controllers
                         artWork.Categories.Add(existingCategory);
                     }
                 }
-			}
-			_context.ArtWork.Add(artWork);
+            }
+            _context.ArtWork.Add(artWork);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetArtWork), new { id = artWork.Id }, artWork);
+            return CreatedAtAction(nameof(GetArtWork), new { id = artWork.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArtWork(int id, ArtWork artWork)
+        public async Task<IActionResult> PutArtWork(int id, [FromBody] ArtWorkDto dto)
         {
-            if (id != artWork.Id) return BadRequest();
-            _context.Entry(artWork).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArtWork(int id)
-        {
-            var artWork = await _context.ArtWork.FindAsync(id);
+            if (dto == null) return BadRequest("ArtWork data is null");
+            var artWork = await _context.ArtWork.Include(a => a.Categories).FirstOrDefaultAsync(a => a.Id == id);
             if (artWork == null) return NotFound();
-            _context.ArtWork.Remove(artWork);
+            artWork.UserId = dto.UserId;
+            artWork.Title = dto.Title;
+            artWork.Description = dto.Description;
+            artWork.ImageURL = dto.ImageURL;
+            artWork.Private = dto.Private ?? false;
+            artWork.ForSale = dto.ForSale ?? false;
+            artWork.Categories.Clear();
+            if (dto.CategoryIds != null)
+            {
+                foreach (var category in dto.CategoryIds)
+                {
+                    var existingCategory = await _context.Categories.FindAsync(category);
+                    if (existingCategory != null)
+                    {
+                        artWork.Categories.Add(existingCategory);
+                    }
+                }
+            }
             await _context.SaveChangesAsync();
             return NoContent();
         }
-    }
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteArtWork(int id)
+		{
+			var artWork = await _context.ArtWork.FindAsync(id);
+			if (artWork == null) return NotFound();
+			_context.ArtWork.Remove(artWork);
+			await _context.SaveChangesAsync();
+			return NoContent();
+		}
+	}
 }
