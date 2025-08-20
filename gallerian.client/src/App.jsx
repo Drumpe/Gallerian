@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import FrontPage from "./pages/FrontPage";
 import SignUpForm from "./pages/SignUpForm";
@@ -10,33 +10,30 @@ import EditProfileForm from "./pages/EditProfileForm";
 import UploadArtworkForm from "./pages/UploadArtworkForm";
 
 import { AuthProvider } from "./auth/AuthContext";
-import RequireAuth from "./auth/RequireAuth";   
+import RequireAuth from "./auth/RequireAuth";
 import "./App.css";
 
 function App() {
     return (
-        <Router>
+        <BrowserRouter>
             <AuthProvider>
-                <Layout>
-                    <Routes>
+                <Routes>
+                    <Route element={<Layout />}>
                         <Route path="/" element={<FrontPage />} />
                         <Route path="/signup" element={<SignUpForm />} />
                         <Route path="/login" element={<LoginForm />} />
-
                         
-                        <Route element={<RequireAuth />}>
-                            <Route path="/profile" element={<ProfilePage />} />
-                            <Route path="/edit-profile" element={<EditProfileForm />} />
-                            <Route path="/upload-artwork" element={<UploadArtworkForm />} />
-                        </Route>
-
+                        {/* Protected routes wrapped individually with RequireAuth */}
+                        <Route path="/profile" element={<RequireAuth element={<ProfilePage />} />} />
+                        <Route path="/edit-profile" element={<RequireAuth element={<EditProfileForm />} />} />
+                        <Route path="/upload-artwork" element={<RequireAuth element={<UploadArtworkForm />} />} />
                         
                         <Route path="/gallery/:userId" element={<PersonGalleri />} />
                         <Route path="/search" element={<SearchResults />} />
-                    </Routes>
-                </Layout>
+                    </Route>
+                </Routes>
             </AuthProvider>
-        </Router>
+        </BrowserRouter>
     );
 }
 
