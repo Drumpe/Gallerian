@@ -1,19 +1,19 @@
 ﻿/* This makes the main content area grow to fill the available space, pushing the footer down. */
-main {
+/*main {
     flex-grow: 1;
-}
+}*/
 
 /* Header & Navigation */
-header {
+/*header {
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+}*/
 
-.logo-container {
+/*.logo-container {
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -48,10 +48,10 @@ header nav a {
 
 header nav a:hover {
     color: #002A52;
-}
+}*/
 
 /* Forms & Inputs */
-.form-label {
+/*.form-label {
     font-weight: 500;
     color: #00376B;
 }
@@ -68,10 +68,10 @@ header nav a:hover {
     border-color: #00376B;
     outline: none;
     box-shadow: 0 0 0 0.25rem rgba(0, 55, 107, 0.25);
-}
+}*/
 
 /* Buttons */
-.btn {
+/*.btn {
     border-radius: 5px;
     font-weight: 600;
     transition: all 0.2s ease;
@@ -112,10 +112,10 @@ header nav a:hover {
     background-color: #A30009;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+}*/
 
 /* Front Page Specifics */
-.welcome-section, .entry-point-section {
+/*.welcome-section, .entry-point-section {
     padding: 4rem 2rem;
     text-align: center;
     border-radius: 10px;
@@ -148,10 +148,10 @@ header nav a:hover {
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
-}
+}*/
 
 /* Footer */
-footer {
+/*footer {
     background-color: #00376B;
     color: #B0B7BC;
     padding: 2rem;
@@ -182,4 +182,4 @@ footer a:hover {
 
 .social-icons a:hover {
     transform: scale(1.1);
-}
+}*/
