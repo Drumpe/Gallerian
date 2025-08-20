@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
+using Gallerian.Server.Models.Dtos;
 
 namespace Gallerian.Server.Controllers
 {
@@ -13,21 +14,39 @@ namespace Gallerian.Server.Controllers
         public SocialMediaController(GallerianContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SocialMedia>>> GetSocialMedias() => await _context.SocialMedias.ToListAsync();
+        public async Task<ActionResult<IEnumerable<SocialMediaDto>>> GetSocialMedias() 
+        {
+            var socialMedias = await _context.SocialMedias.ToListAsync();
+            return socialMedias.Select(sm => new SocialMediaDto {
+                Id = sm.Id,
+                UserId = sm.UserId,
+                Link = sm.Link
+            }).ToList();
+        }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<SocialMedia>>> GetSocialMediasByUser(string userId)
+        public async Task<ActionResult<IEnumerable<SocialMediaDto>>> GetSocialMediasByUser(string userId)
         {
             var socialMedias = await _context.SocialMedias.Where(sm => sm.UserId == userId).ToListAsync();
-            return socialMedias.Count == 0 ? NotFound() : socialMedias;
+            if (socialMedias.Count == 0) return NotFound();
+            return socialMedias.Select(sm => new SocialMediaDto {
+                Id = sm.Id,
+                UserId = sm.UserId,
+                Link = sm.Link
+            }).ToList();
         }
 
         [HttpPost]
-        public async Task<ActionResult<SocialMedia>> PostSocialMedia(SocialMedia socialMedia)
+        public async Task<ActionResult<SocialMediaDto>> PostSocialMedia(SocialMediaDto dto)
         {
+            var socialMedia = new SocialMedia {
+                UserId = dto.UserId,
+                Link = dto.Link
+            };
             _context.SocialMedias.Add(socialMedia);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetSocialMediasByUser), new { userId = socialMedia.UserId }, socialMedia);
+            dto.Id = socialMedia.Id;
+            return CreatedAtAction(nameof(GetSocialMediasByUser), new { userId = socialMedia.UserId }, dto);
         }
 
         [HttpDelete("{userId}/{link}")]

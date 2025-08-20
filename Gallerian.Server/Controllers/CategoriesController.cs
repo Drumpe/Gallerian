@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
+using Gallerian.Server.Models.Dtos;
 
 namespace Gallerian.Server.Controllers
 {
@@ -13,28 +14,37 @@ namespace Gallerian.Server.Controllers
         public CategoriesController(GallerianContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categories>>> GetCategories() => await _context.Categories.Include(c => c.ArtWorks).ToListAsync();
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
+        {
+            var categories = await _context.Categories.ToListAsync();
+            return categories.Select(c => new CategoryDto { Id = c.Id, Category = c.Category }).ToList();
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categories>> GetCategory(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id)
         {
-            var category = await _context.Categories.Include(c => c.ArtWorks).FirstOrDefaultAsync(c => c.Id == id);
-            return category == null ? NotFound() : category;
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return NotFound();
+            return new CategoryDto { Id = category.Id, Category = category.Category };
         }
 
         [HttpPost]
-        public async Task<ActionResult<Categories>> PostCategory(Categories category)
+        public async Task<ActionResult<CategoryDto>> PostCategory(CategoryDto dto)
         {
+            var category = new Categories { Category = dto.Category };
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+            dto.Id = category.Id;
+            return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Categories category)
+        public async Task<IActionResult> PutCategory(int id, CategoryDto dto)
         {
-            if (id != category.Id) return BadRequest();
-            _context.Entry(category).State = EntityState.Modified;
+            if (id != dto.Id) return BadRequest();
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return NotFound();
+            category.Category = dto.Category;
             await _context.SaveChangesAsync();
             return NoContent();
         }

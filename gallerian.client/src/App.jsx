@@ -24,11 +24,9 @@ function App() {
                         <Route path="/login" element={<LoginForm />} />
 
                         
-                        <Route element={<RequireAuth />}>
-                            <Route path="/profile" element={<ProfilePage />} />
-                            <Route path="/edit-profile" element={<EditProfileForm />} />
-                            <Route path="/upload-artwork" element={<UploadArtworkForm />} />
-                        </Route>
+                        <Route path="/profile" element={<RequireAuth element={<ProfilePage />} />} />
+                        <Route path="/edit-profile" element={<RequireAuth element={<EditProfileForm />} />} />
+                        <Route path="/upload-artwork" element={<RequireAuth element={<UploadArtworkForm />} />} />
 
                         
                         <Route path="/gallery/:userId" element={<PersonGalleri />} />
