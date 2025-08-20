@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         applyAuthHeader(t);
 
         api
-            .get("/auth/me")
+            .get("/Users/me")
             .then((res) => setMe(res.data))
             .catch(() => {
                 localStorage.removeItem("token");
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             setToken(jwt);
             applyAuthHeader(jwt);
 
-            const meRes = await api.get("/auth/me");
+            const meRes = await await api.get("/users/me");
             setMe(meRes.data);
 
             

@@ -10,10 +10,10 @@ const Footer = () => {
             </p>
         </address>
          <div className="social-icons">
-        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" aria-label="Facebook"><i className="fa-brands fa-facebook"></i></a>
+        <a href="#" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i className="fa-brands fa-linkedin"></i></a>
+        <a href="#" aria-label="Youtube"><i className="fa-brands fa-youtube"></i></a>
       </div>
     </footer>
   );
