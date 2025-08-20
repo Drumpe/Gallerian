@@ -17,6 +17,7 @@ namespace Gallerian.Server.Controllers
         private readonly PasswordHasher<User> _hasher = new();
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        public record UpdateUserDto(string? Username, DateTime? Birth);
 
         private string? CurrentUserId() =>
             User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -95,10 +96,21 @@ namespace Gallerian.Server.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, User user)
+        public async Task<IActionResult> PutUser(string id, UpdateUserDto dto)
         {
-            if (id != user.Id) return BadRequest();
-            _context.Entry(user).State = EntityState.Modified;
+            var meId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && meId != id) return Forbid();
+
+            var user = await _context.Users.FindAsync(id);
+            if (user is null) return NotFound();
+
+            if (!string.IsNullOrWhiteSpace(dto.Username))
+                user.UserName = dto.Username;
+
+            if (dto.Birth.HasValue)
+                user.Birth = dto.Birth;
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -113,6 +125,37 @@ namespace Gallerian.Server.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+
+        [Authorize]
+        [HttpPut("me")]
+        public async Task<IActionResult> UpdateMe(UpdateUserDto dto)
+        {
+            var meId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Users.FindAsync(meId);
+            if (user is null) return NotFound();
+
+            if (!string.IsNullOrWhiteSpace(dto.Username))
+                user.UserName = dto.Username;
+
+            if (dto.Birth.HasValue)
+                user.Birth = dto.Birth;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult<UserDto>> GetMe()
+        {
+            var meId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Users.FindAsync(meId);
+            if (user is null) return NotFound();
+
+            return await ToDtoAsync(user);
+        }
+
 
 
 
@@ -138,7 +181,8 @@ namespace Gallerian.Server.Controllers
                 u.CreatedAt,
                 u.LastLogin,
                 CalcAge(u.Birth),
-                role
+                role,
+                u.Birth
             );
         }
 
@@ -146,6 +190,16 @@ namespace Gallerian.Server.Controllers
             string Email,
             string Username,
             string Password,
+            DateTime? Birth 
+        );
+        public record UserDto(
+            string Id,
+            string Email,
+            string Username,
+            DateTime CreatedAt,
+            DateTime? LastLogin,
+            int Age,
+            string Role,
             DateTime? Birth 
         );
 
