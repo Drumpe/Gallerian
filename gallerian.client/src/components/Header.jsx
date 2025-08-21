@@ -6,14 +6,14 @@ const Header = () => {
 
     return (
         <header className="header bg-dark text-white p-3" role="banner">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
                 <div className="logo-container d-flex align-items-center">
                     <Link to="/">
                         <img src="https://picsum.photos/200" alt="Gallerian Logo" className="logo-circle" />
-                        <span class="navbar-brand mb-0 h1" aria-label="Gallerian Homepage">Gallerian</span>
+                        <span className="navbar-brand mb-0 h1" aria-label="Gallerian Homepage">Gallerian</span>
                     </Link>
                 </div>
-                <div class="mx-auto">
+                <div className="mx-auto">
 
                     <Link to="/">Home</Link>
                     <Link to="/search">Search</Link>
