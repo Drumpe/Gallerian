@@ -11,7 +11,6 @@ import UploadArtworkForm from "./pages/UploadArtworkForm";
 
 import { AuthProvider } from "./auth/AuthContext";
 import RequireAuth from "./auth/RequireAuth";   
-import "./App.css";
 
 function App() {
     return (
