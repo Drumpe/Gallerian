@@ -14,10 +14,10 @@ const Footer = () => {
                   <div className="col-md-4">
                       <h5>Follow Us</h5>
                       <div className="social-icons" role="list" aria-label="Social media links">
-                          <a href="#" className="text-white mx-2" aria-label="Gallerian on Facebook"><i className="fab fa-facebook"></i></a>
-                          <a href="#" className="text-white mx-2" aria-label="Gallerian on Instagram"><i className="fab fa-instagram"></i></a>
-                          <a href="#" className="text-white mx-2" aria-label="Gallerian on LinkedIn"><i className="fab fa-linkedin-in"></i></a>
-                          <a href="#" className="text-white mx-2" aria-label="Gallerian on YouTube"><i className="fab fa-youtube"></i></a>
+                          <a href="#" className="text-black mx-2" aria-label="Gallerian on Facebook"><i className="fab fa-facebook"></i></a>
+                          <a href="#" className="text-black mx-2" aria-label="Gallerian on Instagram"><i className="fab fa-instagram"></i></a>
+                          <a href="#" className="text-black mx-2" aria-label="Gallerian on LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                          <a href="#" className="text-black mx-2" aria-label="Gallerian on YouTube"><i className="fab fa-youtube"></i></a>
                       </div>
                   </div>
               </div>
