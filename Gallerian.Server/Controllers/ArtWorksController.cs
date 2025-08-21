@@ -116,6 +116,46 @@ namespace Gallerian.Server.Controllers
 			await _context.SaveChangesAsync();
 			return NoContent();
 		}
-	}
+
+        [HttpPost("search")]
+        public async Task<ActionResult<IEnumerable<ArtWorkDto>>> SearchArtWorks([FromBody] ArtWorkSearchDto searchDto)
+        {
+            var artworks = _context.ArtWork.Include(a => a.Categories).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+            {
+                artworks = artworks.Where(a => a.Title.Contains(searchDto.Title));
+            }
+
+            if (searchDto.ForSale.HasValue)
+            {
+                artworks = artworks.Where(a => a.ForSale == searchDto.ForSale.Value);
+            }
+
+            if (!string.IsNullOrEmpty(searchDto.Description))
+            {
+                artworks = artworks.Where(a => a.Description.Contains(searchDto.Description));
+            }
+
+            if (searchDto.CategoryIds != null && searchDto.CategoryIds.Any())
+            {
+                artworks = artworks.Where(a => a.Categories.Any(c => searchDto.CategoryIds.Contains(c.Id)));
+            }
+
+            var result = await artworks.ToListAsync();
+
+            return result.Select(a => new ArtWorkDto
+            {
+                Id = a.Id,
+                UserId = a.UserId,
+                Title = a.Title,
+                ImageURL = a.ImageURL,
+                Description = a.Description,
+                Private = a.Private,
+                ForSale = a.ForSale,
+                CategoryIds = a.Categories.Select(c => c.Id).ToList()
+            }).ToList();
+        }
+    }
 }
 
