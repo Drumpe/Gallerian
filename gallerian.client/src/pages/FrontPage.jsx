@@ -34,25 +34,25 @@ const recentArtworkData = [{
 const FrontPage = () => {
     return (
         <>
-            <section class="hero-section" role="region" aria-label="Gallerian Hero Section">
-                <div class="overlay-box">
-                    <h1 class="hero-heading">Gallerian</h1>
-                    <p class="hero-subtitle">Ready to explore?</p>
-                    <div class="search-bar-container">
-                        <label for="mainSearch" class="visually-hidden">Search for art</label>
-                        <input type="text" id="mainSearch" class="form-control" placeholder="Search for art, artists, or tags..." aria-label="Search field" />
-                        <button id="searchButton" class="btn btn-primary">Search</button>
+            <section className="hero-section" role="region" aria-label="Gallerian Hero Section">
+                <div className="overlay-box">
+                    <h1 className="hero-heading">Gallerian</h1>
+                    <p className="hero-subtitle">Ready to explore?</p>
+                    <div className="search-bar-container">
+                        <label for="mainSearch" className="visually-hidden">Search for art</label>
+                        <input type="text" id="mainSearch" className="form-control" placeholder="Search for art, artists, or tags..." aria-label="Search field" />
+                        <button id="searchButton" className="btn btn-primary">Search</button>
                     </div>
-                    <div class="mt-3">
-                        <button id="signUpButton" class="btn btn-secondary" aria-controls="signUpPopup" aria-expanded="false">Sign Up</button>
-                        <button id="loginButtonHero" class="btn btn-primary" aria-controls="loginPopup" aria-expanded="false">Log In</button>
+                    <div className="mt-3">
+                        <button id="signUpButton" className="btn btn-secondary" aria-controls="signUpPopup" aria-expanded="false">Sign Up</button>
+                        <button id="loginButtonHero" className="btn btn-primary" aria-controls="loginPopup" aria-expanded="false">Log In</button>
                     </div>
                 </div>
             </section>
 
-            <section class="container my-5" role="region" aria-labelledby="recent-discoveries-heading">
-                <h2 id="recent-discoveries-heading" class="text-center mb-4">Recent Discoveries</h2>
-                <div id="artwork-container" class="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
+            <section className="container my-5" role="region" aria-labelledby="recent-discoveries-heading">
+                <h2 id="recent-discoveries-heading" className="text-center mb-4">Recent Discoveries</h2>
+                <div id="artwork-container" className="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
 
                     {recentArtworkData.map((p, i) => (
                         <>
@@ -63,7 +63,7 @@ const FrontPage = () => {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">{p.title}</h5>
-                                    <p className="card-text"><small class="text-muted">By: {p.artist}</small></p>
+                                    <p className="card-text"><small className="text-muted">By: {p.artist}</small></p>
                                 </div>
                             </div>
                         </>
