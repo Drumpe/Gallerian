@@ -1,23 +1,79 @@
 import { Link } from "react-router-dom";
 
+// A placeholder for API data. In a real app, this would be a fetch() call to a backend.
+const recentArtworkData = [{
+    id: 1,
+    image: 'https://placehold.co/400x400?text=Artwork+1',
+    title: 'Serene Sunset',
+    artist: 'Alex Rivera',
+    description: 'A beautiful oil painting capturing the last moments of light over a quiet lake.',
+    tags: ['landscape', 'oil painting', 'nature', 'sunset']
+}, {
+    id: 2,
+    image: 'https://placehold.co/400x400?text=Artwork+2',
+    title: 'Urban Geometry',
+    artist: 'Samira Khan',
+    description: 'A striking piece of digital art focused on geometric shapes and vibrant colors.',
+    tags: ['digital art', 'geometric', 'abstract', 'cityscape']
+}, {
+    id: 3,
+    image: 'https://placehold.co/400x400?text=Artwork+3',
+    title: 'Whispers of the Forest',
+    artist: 'Ben Carter',
+    description: 'An ethereal watercolor painting of a mysterious forest with soft, muted tones.',
+    tags: ['watercolor', 'fantasy', 'forest', 'nature']
+}, {
+    id: 4,
+    image: 'https://placehold.co/400x400?text=Artwork+4',
+    title: 'Cosmic Dream',
+    artist: 'Elara Vance',
+    description: 'An imaginative space-themed piece with vibrant nebulae and distant galaxies.',
+    tags: ['sci-fi', 'space', 'fantasy', 'digital']
+}];
+
 const FrontPage = () => {
     return (
-        <main>
-            <section className="welcome-section">
-                <h1>Welcome to Gallerian</h1>
-                <p>Your gateway to a world of art</p>
+        <>
+            <section class="hero-section" role="region" aria-label="Gallerian Hero Section">
+                <div class="overlay-box">
+                    <h1 class="hero-heading">Gallerian</h1>
+                    <p class="hero-subtitle">Ready to explore?</p>
+                    <div class="search-bar-container">
+                        <label for="mainSearch" class="visually-hidden">Search for art</label>
+                        <input type="text" id="mainSearch" class="form-control" placeholder="Search for art, artists, or tags..." aria-label="Search field" />
+                        <button id="searchButton" class="btn btn-primary">Search</button>
+                    </div>
+                    <div class="mt-3">
+                        <button id="signUpButton" class="btn btn-secondary" aria-controls="signUpPopup" aria-expanded="false">Sign Up</button>
+                        <button id="loginButtonHero" class="btn btn-primary" aria-controls="loginPopup" aria-expanded="false">Log In</button>
+                    </div>
+                </div>
             </section>
 
-            <section className="entry-point-section">
-                <h2>Search for Art</h2>
-                <div className="d-flex justify-content-center">
-                    <input type="search" className="form-control w-50" placeholder="Search for art by media type or content" aria-label="Search" />
+            <section class="container my-5" role="region" aria-labelledby="recent-discoveries-heading">
+                <h2 id="recent-discoveries-heading" class="text-center mb-4">Recent Discoveries</h2>
+                <div id="artwork-container" class="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
+
+                    {recentArtworkData.map((p, i) => (
+                        <>
+                            {/*TODO: länka data-artwork-id till verkligt id */}
+                            < div className="card h-100" data-artwork-id={i} role="button" tabindex="0">
+                                <div className="image-container">
+                                    <img src={p.image} className="card-img-top" alt={p.title} />
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title">{p.title}</h5>
+                                    <p className="card-text"><small class="text-muted">By: {p.artist}</small></p>
+                                </div>
+                            </div>
+                        </>
+                    ))}
+
                 </div>
-                <p className="mt-4">Ready to explore? Log in or Sign up.</p>
-                <div className="button-container d-flex justify-content-center gap-3">
-                </div>
-            </section>
-        </main>
+
+
+            </section >
+        </>
     );
 };
 
