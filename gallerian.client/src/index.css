@@ -1,28 +1,167 @@
-/* Global Reset and Body Styling */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* General Body and Typography */
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #F8F9FA;
-    color: #212529;
-    line-height: 1.6;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
-/* This is the main layout for the entire application. It uses flexbox to ensure the footer sticks to the bottom of the page. */
-.app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+h1, h2, h3, h4, h5, h6 {
+    color: #00376B;
 }
 
-/* The core container to center content. It has a max-width and is centered horizontally using auto margins. */
-.container {
-    max-width: 1200px;
-    width: 90%;
-    margin: 0 auto;
+a {
+    color: #0076B6;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #005f9c;
+        text-decoration: underline;
+    }
+
+/* Header */
+.header {
+    background-color: #00376B !important;
     padding: 1rem 0;
+}
+
+.navbar-brand,
+.nav-link {
+    color: white !important;
+}
+
+/* Circular Logo Styling */
+.logo-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white; /* Placeholder for a circular logo */
+    margin-right: 10px;
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: url('https://placehold.co/1920x1080/0076B6/ffffff?text=Gallerian+Hero+Image');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Ensures text on top of the hero image is white */
+    text-align: center;
+}
+
+/* Opaque and Centered Content Box */
+.overlay-box {
+    background-color: #00376B;
+    padding: 3rem;
+    border-radius: 10px;
+    width: auto;
+    min-width: 350px;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: white; /* FIX: Sets all text inside this box to be white */
+}
+
+    /* Ensures headings and links inside the box are also white */
+    .overlay-box .hero-heading,
+    .overlay-box .hero-subtitle,
+    .overlay-box .btn {
+        color: white;
+    }
+
+.hero-heading {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Inline Search Bar and Button using Flexbox */
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+}
+
+    .search-bar-container .form-control {
+        width: 300px;
+    }
+
+/* Recent Discoveries Section - Card Styling */
+.card {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.card-img-top {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; 
+}
+
+/* Pop-up (Dialog) Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    overflow: auto;
+}
+
+.popup-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    font-weight: bold;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Footer */
+.footer {
+    background-color: #00376B;
+}
+
+    .footer h5,
+    .footer p,
+    .footer a {
+        color: white;
+    }
+
+.social-icons a {
+    font-size: 1.5rem;
+    margin: 0 10px;
 }
