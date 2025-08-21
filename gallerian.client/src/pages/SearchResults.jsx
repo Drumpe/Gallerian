@@ -10,21 +10,23 @@ const SearchResults = () => {
     // State to indicate if the API request is loading
     const [loading, setLoading] = useState(false);
 
+
     // Function to fetch search results from the backend API
     const fetchSearchResults = async (term) => {
         setLoading(true); // Show loading indicator
-        const response = await fetch('https://localhost:7131/api/artwork/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: term }) // Send search term in request body
-        });
-        if (response.ok) {
-            const data = await response.json(); // Parse response JSON
-            setArtworks(data); // Update artworks state with results
-        } else {
-            setArtworks([]); // Clear results if request fails
+        try {
+            const response = await api.post('/ArtWorks/search', {
+                title: term
+            });
+
+            setArtworks(response.data);
+
+        } catch (error) {
+            console.error("Could not fetch artworks:", error);
+            setArtworks([]); 
+        } finally {
+            setLoading(false); 
         }
-        setLoading(false); // Hide loading indicator
     };
 
     // Handler for search input changes

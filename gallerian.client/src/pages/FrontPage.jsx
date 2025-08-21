@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import React from 'react';
 
 // A placeholder for API data. In a real app, this would be a fetch() call to a backend.
 const recentArtworkData = [{
@@ -39,7 +40,7 @@ const FrontPage = () => {
                     <h1 className="hero-heading">Gallerian</h1>
                     <p className="hero-subtitle">Ready to explore?</p>
                     <div className="search-bar-container">
-                        <label for="mainSearch" className="visually-hidden">Search for art</label>
+                        <label htmlFor="mainSearch" className="visually-hidden">Search for art</label>
                         <input type="text" id="mainSearch" className="form-control" placeholder="Search for art, artists, or tags..." aria-label="Search field" />
                         <button id="searchButton" className="btn btn-primary">Search</button>
                     </div>
@@ -55,9 +56,9 @@ const FrontPage = () => {
                 <div id="artwork-container" className="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
 
                     {recentArtworkData.map((p, i) => (
-                        <>
+                        <React.Fragment key={i}>
                             {/*TODO: länka data-artwork-id till verkligt id */}
-                            < div className="card h-100" data-artwork-id={i} role="button" tabindex="0">
+                            < div className="card h-100" data-artwork-id={i} role="button" tabIndex="0">
                                 <div className="image-container">
                                     <img src={p.image} className="card-img-top" alt={p.title} />
                                 </div>
@@ -66,7 +67,7 @@ const FrontPage = () => {
                                     <p className="card-text"><small className="text-muted">By: {p.artist}</small></p>
                                 </div>
                             </div>
-                        </>
+                        </React.Fragment>
                     ))}
 
                 </div>
