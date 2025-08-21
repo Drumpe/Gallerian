@@ -3,25 +3,24 @@ import { api } from '../api';
 
 // SearchResults component for searching and displaying artwork titles
 const SearchResults = () => {
-    // State for the search input value
+    // State for the title search input value
     const [searchTerm, setSearchTerm] = useState('');
+    // State for the category search input value
+    const [categoryTerm, setCategoryTerm] = useState('');
     // State for the list of artworks returned from the API
     const [artworks, setArtworks] = useState([]);
     // State to indicate if the API request is loading
     const [loading, setLoading] = useState(false);
 
     // Function to fetch search results from the backend API
-    const fetchSearchResults = async (term1, term2, term3) => {
-        setLoading(true); // Show loading indicator
+    const fetchSearchResults = async (title, category) => {
+        setLoading(true);
         try {
             const response = await api.post('/ArtWorks/search', {
-                title: term1,
-                category: term2,
-                forSale: term3
+                title: title,
+                category: category
             });
-
             setArtworks(response.data);
-
         } catch (error) {
             console.error("Could not fetch artworks:", error);
             setArtworks([]);
@@ -30,28 +29,42 @@ const SearchResults = () => {
         }
     };
 
-    // Handler for search input changes
-    const handleInputChange = (e) => {
+    // Handler for title search input changes
+    const handleTitleChange = (e) => {
         const term = e.target.value;
-        setSearchTerm(term); // Update search term state
-        fetchSearchResults(term); // Fetch results for new term
+        setSearchTerm(term);
+        fetchSearchResults(term, categoryTerm);
+    };
+
+    // Handler for category search input changes
+    const handleCategoryChange = (e) => {
+        const term = e.target.value;
+        setCategoryTerm(term);
+        fetchSearchResults(searchTerm, term);
     };
 
     return (
         <main className="container" aria-label="Search results for art gallery">
             <section>
-                {/* Search input field */}
+                {/* Title search input field */}
                 <input
                     type="text"
                     placeholder="Search by title..."
                     value={searchTerm}
-                    onChange={handleInputChange}
+                    onChange={handleTitleChange}
+                    className="form-control mb-3"
+                />
+                {/* Category search input field */}
+                <input
+                    type="text"
+                    placeholder="Search by category..."
+                    value={categoryTerm}
+                    onChange={handleCategoryChange}
                     className="form-control mb-3"
                 />
             </section>
             <section>
                 <h2>Search Results</h2>
-                {/* Show loading indicator, no results message, or list of titles */}
                 {loading ? (
                     <p>Loading...</p>
                 ) : artworks.length === 0 ? (
@@ -68,4 +81,4 @@ const SearchResults = () => {
     );
 };
 
-export default SearchResults;   
+export default SearchResults;

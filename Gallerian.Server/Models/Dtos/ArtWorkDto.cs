@@ -10,5 +10,6 @@
 		public bool? Private { get; set; }
 		public bool? ForSale { get; set; }
 		public List<int> CategoryIds { get; set; }
-	}
+
+    }
 }

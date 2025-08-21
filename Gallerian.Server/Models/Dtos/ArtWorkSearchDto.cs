@@ -6,5 +6,7 @@
         public bool? ForSale { get; set; }
         public string? Description { get; set; }
         public List<int>? CategoryIds { get; set; }
+        public string? Category { get; set; } // Add this property
+
     }
 }

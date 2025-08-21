@@ -142,6 +142,11 @@ namespace Gallerian.Server.Controllers
                 artworks = artworks.Where(a => a.Categories.Any(c => searchDto.CategoryIds.Contains(c.Id)));
             }
 
+            if (!string.IsNullOrEmpty(searchDto.Category))
+            {
+                artworks = artworks.Where(a => a.Categories.Any(c => c.Category.Contains(searchDto.Category)));
+            }
+
             var result = await artworks.ToListAsync();
 
             return result.Select(a => new ArtWorkDto
