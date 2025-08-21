@@ -9,15 +9,28 @@ export default function Profile() {
     const { me } = useAuth();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [artworks, setArtworks] = useState([]);
 
     useEffect(() => {
+        setLoading(true);
+
         api.get("/Users/me")
             .then((res) => {
-                console.log("Profile data:", res.data);
                 setUser(res.data);
+                return api.get('/ArtWorks/User/' + res.data.id);
             })
-            .catch((err) => console.error("Failed to load profile", err))
-            .finally(() => setLoading(false));
+            .then((artworkRes) => {
+                setArtworks(artworkRes.data);
+            })
+            .catch((err) => {
+                console.error("Failed to load profile", err);
+                setUser(null);
+                setArtworks([]);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+
     }, []);
 
     if (loading) {
@@ -58,16 +71,35 @@ export default function Profile() {
                 <section className="col-lg-8 col-md-12 gallery-col">
                     <section className="uploaded-artworks mb-5" aria-labelledby="uploaded-art-heading">
                         <h2 id="uploaded-art-heading" className="text-center mb-4">Mina uppladdningar</h2>
-                        {/* Här skulle logik för att visa uppladdade konstverk finnas */}
+
                         <div id="uploaded-artwork-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" aria-live="polite" aria-atomic="true">
-                            <p>Inga uppladdade konstverk hittades.</p>
+                            {artworks && artworks.length ?
+                                (
+                                    artworks.map((p) => (
+                                        <React.Fragment key={p.id}>
+
+                                            < div className="card h-100" data-artwork-id={p.id} role="button" tabIndex="0">
+                                                <div className="image-container">
+                                                    <img src={p.image} className="card-img-top" alt={p.title} />
+                                                </div>
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{p.title}</h5>
+                                                    <p className="card-text"><small className="text-muted">By: {p.artist}</small></p>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    ))
+                                ) :
+                                <p className="text-center w-100">Inga uppladdade konstverk hittades.</p>
+                            }
+
                         </div>
                     </section>
                     <section className="liked-artworks mb-5" aria-labelledby="liked-art-heading">
                         <h2 id="liked-art-heading" className="text-center mb-4">Gillade konstverk</h2>
                         {/* Här skulle logik för att visa gillade konstverk finnas */}
                         <div id="liked-artwork-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4" aria-live="polite" aria-atomic="true">
-                            <p>Inga gillade konstverk hittades.</p>
+                            <p className="text-center w-100">Inga gillade konstverk hittades.</p>
                         </div>
                     </section>
                 </section>
