@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { api } from '../api';
 
 // SearchResults component for searching and displaying artwork titles
 const SearchResults = () => {
@@ -11,20 +11,23 @@ const SearchResults = () => {
     const [loading, setLoading] = useState(false);
 
     // Function to fetch search results from the backend API
-    const fetchSearchResults = async (term) => {
+    const fetchSearchResults = async (term1, term2, term3) => {
         setLoading(true); // Show loading indicator
-        const response = await axios.post('/artwork/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: term }) // Send search term in request body
-        });
-        if (response.ok) {
-            const data = await response.json(); // Parse response JSON
-            setArtworks(data); // Update artworks state with results
-        } else {
-            setArtworks([]); // Clear results if request fails
+        try {
+            const response = await api.post('/ArtWorks/search', {
+                title: term1,
+                category: term2,
+                forSale: term3
+            });
+
+            setArtworks(response.data);
+
+        } catch (error) {
+            console.error("Could not fetch artworks:", error);
+            setArtworks([]);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false); // Hide loading indicator
     };
 
     // Handler for search input changes
