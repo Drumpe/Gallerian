@@ -26,7 +26,21 @@ const Header = () => {
                     <>
                         <span style={{ marginLeft: "1rem" }}>
                             Hi, {me?.username || me?.email}
-                        </span>
+                            </span>
+
+                            <Link
+                                to="/upload-artwork"
+                                style={{
+                                    marginLeft: "1rem",
+                                    background: "#0d6efd",
+                                    color: "white",
+                                    padding: "0.3rem 0.8rem",
+                                    borderRadius: "5px",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                Upload Artwork
+                            </Link>
                         <button
                             onClick={logout}
                             style={{
