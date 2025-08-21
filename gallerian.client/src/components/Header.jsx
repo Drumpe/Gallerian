@@ -18,6 +18,7 @@ const Header = () => {
                     <Link to="/">Home</Link>
                     <Link to="/search">Search</Link>
 
+
                     {!isAuthenticated ? (
                         <>
                             <Link to="/login" className="btn btn-primary" aria-label="Login to your account">Log In</Link>
@@ -38,6 +39,7 @@ const Header = () => {
                         </>
                     )}
                 </div>
+
             </nav>
         </header>
     );

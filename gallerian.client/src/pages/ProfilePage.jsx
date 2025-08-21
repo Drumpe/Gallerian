@@ -1,88 +1,49 @@
-import SearchResults from "./SearchResults.jsx";
+// src/pages/Profile.jsx
+import { useEffect, useState } from "react";
+import { useAuth } from "../auth/AuthContext";
+import { api } from "../api";
+import { Link } from "react-router-dom";
 
-const Profile = () => {
-  return (
-    <main className="container my-5">
-      <div className="row">
-        {/* Left-hand side: Bio, Photo, and Social Links */}
-        <aside className="col-md-4">
-          <section className="profile-info">
-            <img
-              src="http://googleusercontent.com/image_collection/image_retrieval/11739072952401385557_0"
-              alt="Artist profile picture"
-              className="profile-photo"
-              aria-label="Profile picture of the artist"
-            />
+export default function Profile() {
+    const { me } = useAuth();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-            <h1 className="artist-name">Jane Doe</h1>
+    useEffect(() => {
+        api.get("/Users/me")
+            .then((res) => {
+                console.log("Profile data:", res.data);
+                setUser(res.data);
+            })
+            .catch((err) => console.error("Failed to load profile", err))
+            .finally(() => setLoading(false));
+    }, []);
 
-            <section className="bio-section">
-              <h3>Bio</h3>
-              <p>
-                Jane Doe is a multidisciplinary artist based in New York City,
-                working primarily with abstract expressionism. Her work explores
-                themes of urban decay and natural renewal, using a vibrant
-                palette and dynamic brushstrokes to capture the energy of the
-                city.
-              </p>
-            </section>
 
-            <section className="social-media" aria-label="Social media links">
-              <h3>Follow Me</h3>
-              <a
-                href="#"
-                className="social-link"
-                aria-label="Link to Jane Doe's Twitter profile"
-              >
-                Twitter
-              </a>
-              <a
-                href="#"
-                className="social-link"
-                aria-label="Link to Jane Doe's Instagram profile"
-              >
-                Instagram
-              </a>
-              <a
-                href="#"
-                className="social-link"
-                aria-label="Link to Jane Doe's ArtStation profile"
-              >
-                ArtStation
-              </a>
-            </section>
-            {/* This button is for a logged-in user to edit their profile */}
-            {/* NEEDS JAVASCRIPT: This button needs logic to check if the current user is the owner of the profile. If so, display the button. If not, hide it. */}
-            <button
-              type="button"
-              className="btn btn-secondary w-100 mt-4"
-              aria-label="Edit your profile"
+
+    if (loading) return <div className="container py-5">Loading...</div>;
+    if (!user) return <div className="container py-5">Profile not found.</div>;
+
+    return (
+        <main className="container my-5">
+            <h2 className="mb-4">My Profile</h2>
+
+            <p><strong>Username:</strong> {user.username}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Birth date:</strong> {user.birth ? user.birth.substring(0, 10) : "N/A"}</p>
+            <p><strong>Role:</strong> {user.role}</p>
+            <p><strong>Created at:</strong> {user.createdAt ? user.createdAt.substring(0, 10) : "N/A"}</p>
+            <p><strong>Last login:</strong> {user.lastLogin ? user.lastLogin.substring(0, 10) : "N/A"}</p>
+            <p><strong>Age:</strong> {user.age}</p>
+
+
+
+            <Link
+                to="/edit-profile"
+                className="btn btn-primary mt-3"
             >
-              Edit Profile
-            </button>
-          </section>
-        </aside>
-
-        {/* Right-hand side: The art cards from SearchResults */}
-        <section className="col-md-8">
-          <SearchResults />
-        </section>
-      </div>
-
-      <section className="col-md-8">
-        <SearchResults />
-        {/* NEEDS JAVASCRIPT: This button needs logic to navigate to the Persongalleri page. 
-              The logic should also pass the artist's ID to the new page so it knows which artist's gallery to display. */}
-        <button
-          type="button"
-          className="btn btn-primary w-100 mt-4"
-          aria-label="See all artwork by this artist"
-        >
-          See More
-        </button>
-      </section>
-    </main>
-  );
-};
-
-export default Profile;
+                Edit Profile
+            </Link>
+        </main>
+    );
+}
