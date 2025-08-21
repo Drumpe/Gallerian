@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext"; 
+import { useAuth } from "../auth/AuthContext";
 
 const Header = () => {
     const { isAuthenticated, me, logout } = useAuth();
@@ -25,22 +25,20 @@ const Header = () => {
                 ) : (
                     <>
                         <span style={{ marginLeft: "1rem" }}>
-                            Hi, {me?.username || me?.email}
-                            </span>
+                            Hi, {me?.username}
+                        </span>
 
-                            <Link
-                                to="/upload-artwork"
-                                style={{
-                                    marginLeft: "1rem",
-                                    background: "#0d6efd",
-                                    color: "white",
-                                    padding: "0.3rem 0.8rem",
-                                    borderRadius: "5px",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                Upload Artwork
-                            </Link>
+                        <Link
+                            to="/profile"
+                            style={{
+                                marginLeft: "1rem",
+                                border: "1px solid #333",
+                                padding: "0.3rem 0.6rem",
+                            }}
+                        >
+                            Profile
+                        </Link>
+
                         <button
                             onClick={logout}
                             style={{
