@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <div className="app-container">
       <Header />
       {/* The container class now correctly wraps the main content */}
-      <main className="container">
+      <main className="container" role="main">
         {children}
       </main>
       <Footer />
