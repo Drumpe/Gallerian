@@ -26,16 +26,13 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <span style={{ marginLeft: "1rem" }}>
+                            <span>
                                 Hi, {me?.username || me?.email}
                                 </span>
                                 <Link
                                     to="/profile"
-                                    style={{
-                                        marginLeft: "1rem",
-                                        border: "1px solid #333",
-                                        padding: "0.3rem 0.6rem",
-                                    }}
+                                    className="btn btn-secondary ms-2"
+                                    aria-label="Your account information"
                                 >
                                     Profile
                                 </Link>
