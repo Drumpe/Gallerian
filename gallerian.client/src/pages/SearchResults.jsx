@@ -13,7 +13,7 @@ const SearchResults = () => {
     // Function to fetch search results from the backend API
     const fetchSearchResults = async (term) => {
         setLoading(true); // Show loading indicator
-        const response = await axios.post('/artwork/search', {
+        const response = await fetch('https://localhost:7131/api/artwork/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: term }) // Send search term in request body
