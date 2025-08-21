@@ -5,54 +5,41 @@ const Header = () => {
     const { isAuthenticated, me, logout } = useAuth();
 
     return (
-        <header>
-            <div className="logo-container">
-                <Link to="/">
-                    <img src="https://picsum.photos/200" alt="Gallerian Logo" />
-                    <h1>Gallerian</h1>
-                </Link>
-            </div>
+        <header className="header bg-dark text-white p-3" role="banner">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+                <div className="logo-container d-flex align-items-center">
+                    <Link to="/">
+                        <img src="https://picsum.photos/200" alt="Gallerian Logo" className="logo-circle" />
+                        <span className="navbar-brand mb-0 h1" aria-label="Gallerian Homepage">Gallerian</span>
+                    </Link>
+                </div>
+                <div className="mx-auto">
 
-            <nav role="navigation">
-                <Link to="/">Home</Link>
-                <Link to="/search">Search</Link>
+                    <Link to="/">Home</Link>
+                    <Link to="/search">Search</Link>
 
-                {!isAuthenticated ? (
-                    <>
-                        <Link to="/login">Log In</Link>
-                        <Link to="/signup">Sign Up</Link>
-                    </>
-                ) : (
-                    <>
-                        <span style={{ marginLeft: "1rem" }}>
-                            Hi, {me?.username}
-                        </span>
 
-                        <Link
-                            to="/profile"
-                            style={{
-                                marginLeft: "1rem",
-                                border: "1px solid #333",
-                                padding: "0.3rem 0.6rem",
-                            }}
-                        >
-                            Profile
-                        </Link>
+                    {!isAuthenticated ? (
+                        <>
+                            <Link to="/login" className="btn btn-primary" aria-label="Login to your account">Log In</Link>
+                            <Link to="/signup" className="btn btn-primary" aria-label="Create new account">Sign Up</Link>
+                        </>
+                    ) : (
+                        <>
+                            <span style={{ marginLeft: "1rem" }}>
+                                Hi, {me?.username || me?.email}
+                            </span>
+                            <Button
+                                    onClick={logout}
+                                    className="btn btn-secondary ms-2"
+                                    aria-label="Log out of your account"
+                            >
+                                Logout
+                            </Button>
+                        </>
+                    )}
+                </div>
 
-                        <button
-                            onClick={logout}
-                            style={{
-                                marginLeft: "1rem",
-                                background: "transparent",
-                                border: "1px solid #333",
-                                padding: "0.3rem 0.6rem",
-                                cursor: "pointer",
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </>
-                )}
             </nav>
         </header>
     );
