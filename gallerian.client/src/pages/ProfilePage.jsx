@@ -21,6 +21,7 @@ export default function Profile() {
                 return api.get('/ArtWorks/User/' + res.data.id);
             })
             .then((artworkRes) => {
+                console.log("Profile artworks:", artworkRes.data); 
                 setArtworks(artworkRes.data);
             })
             .catch((err) => {
@@ -33,6 +34,25 @@ export default function Profile() {
             });
 
     }, []);
+    const getImageUrl = (url) => {
+        if (!url) return "/placeholder.png";
+        if (url.startsWith("http")) return url;
+        return `https://localhost:7131${url}`;
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Är du säker på att du vill ta bort detta konstverk?")) return;
+
+        try {
+            await api.delete(`/ArtWorks/${id}`);
+            setArtworks((prev) => prev.filter((art) => art.id !== id)); 
+        } catch (err) {
+            console.error("Kunde inte ta bort konstverket", err);
+            alert("Ett fel uppstod vid borttagning.");
+        }
+    };
+
+
 
     if (loading) {
         return <div className="container py-5">Laddar...</div>;
@@ -55,11 +75,6 @@ export default function Profile() {
                                 <p id="user-bio" className="text-muted">Användarroll: {user.role}</p>
                             </figcaption>
                         </figure>
-                        {/*<ul className="social-icons mb-3" role="list" aria-label="Länkar till sociala medier">*/}
-                        {/*    */}{/* <li className="social-icon"><a href="#" className="text-white mx-2" aria-label="Facebook-sida"><i className="fab fa-facebook"></i></a></li> */}
-                        {/*    */}{/* <li className="social-icon"><a href="#" className="text-white mx-2" aria-label="Instagram-sida"><i className="fab fa-instagram"></i></a></li> */}
-                        {/*    */}{/* <li className="social-icon"><a href="#" className="text-white mx-2" aria-label="LinkedIn-sida"><i className="fab fa-linkedin-in"></i></a></li> */}
-                        {/*</ul>*/}
                         <nav id="profile-actions" aria-label="Edit-Profile">
                             <Link to="/edit-profile" className="btn btn-primary w-100 mb-2">Redigera profil</Link>
                             <Link to="/upload-artwork" type="button" id="addArtworkBtn" className="btn btn-secondary w-100" aria-controls="addArtworkPopup" aria-expanded="false">Lägg till konstverk</Link>
@@ -73,20 +88,37 @@ export default function Profile() {
                         <div id="uploaded-artwork-container" className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" aria-live="polite" aria-atomic="true">
                             {artworks && artworks.length ?
                                 (
-                                    artworks.map((p) => (
-                                        <React.Fragment key={p.id}>
+                                    artworks.map((p) => {
 
-                                            < div className="card h-100" data-artwork-id={p.id} role="button" tabIndex="0">
-                                                <div className="image-container">
-                                                    <img src={p.image} className="card-img-top" alt={p.title} />
+                                        return (
+                                            <React.Fragment key={p.id}>
+                                                <div className="card h-100 position-relative" data-artwork-id={p.id}>
+                                                    <div className="image-container">
+                                                        <img src={getImageUrl(p.imageURL)} className="card-img-top" alt={p.title} />
+                                                    </div>
+                                                    <div className="card-body d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <h5 className="card-title">{p.title}</h5>
+                                                            <p className="card-text">
+                                                                <small className="text-muted">By: {user.username}</small>
+                                                            </p>
+                                                        </div>
+                                                        <button
+                                                            className="btn btn-danger w-100 mt-2 shadow-sm"
+                                                            onClick={() => handleDelete(p.id)}
+                                                        >
+                                                            <i className="bi bi-trash me-1"></i> Ta bort
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{p.title}</h5>
-                                                    <p className="card-text"><small className="text-muted">By: {p.artist}</small></p>
-                                                </div>
-                                            </div>
-                                        </React.Fragment>
-                                    ))
+
+
+
+
+                                            </React.Fragment>
+                                        )
+                                    })
+
                                 ) :
                                 <p className="text-center w-100">Inga uppladdade konstverk hittades.</p>
                             }
