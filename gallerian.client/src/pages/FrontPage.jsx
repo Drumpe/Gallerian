@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api"; // axios instance
+import React from 'react';
 
 const FrontPage = () => {
     const [artworks, setArtworks] = useState([]);
