@@ -311,5 +311,3 @@ namespace Gallerian.Server.Controllers
 
 }
 
-}
-
