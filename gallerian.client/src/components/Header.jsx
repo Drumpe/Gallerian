@@ -26,16 +26,23 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <span style={{ marginLeft: "1rem" }}>
+                            <span>
                                 Hi, {me?.username || me?.email}
-                            </span>
-                            <Button
+                                </span>
+                                <Link
+                                    to="/profile"
+                                    className="btn btn-secondary ms-2"
+                                    aria-label="Your account information"
+                                >
+                                    Profile
+                                </Link>
+                            <Link
                                     onClick={logout}
                                     className="btn btn-secondary ms-2"
                                     aria-label="Log out of your account"
                             >
                                 Logout
-                            </Button>
+                            </Link>
                         </>
                     )}
                 </div>
