@@ -1,67 +1,55 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { api } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const UploadArtworkForm = () => {
-    const { register, handleSubmit, watch } = useForm();
+    const { register, handleSubmit, watch, reset } = useForm();
     const [imagePreview, setImagePreview] = useState(null);
-
-    // Track upload mode: file or url
     const [uploadMode, setUploadMode] = useState("file");
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
-    // Watch for imageUrl field changes
     const imageUrl = watch("imageUrl");
 
-    // Handle form submission
     const onSubmit = async (data) => {
         const formData = new FormData();
 
-        // Append image based on mode
         if (uploadMode === "file" && data.artworkImage?.[0]) {
             formData.append("ArtworkImage", data.artworkImage[0]);
         } else if (uploadMode === "url" && data.imageUrl) {
             formData.append("ImageURL", data.imageUrl);
         }
 
-        // Append other fields
         formData.append("Title", data.title);
         formData.append("Description", data.description || "");
         formData.append("Private", false);
         formData.append("ForSale", false);
 
-        // Append mediums
         if (data.mediumTags) {
-            data.mediumTags.forEach(tag => {
-                formData.append("MediumTags", tag);
-            });
+            data.mediumTags.forEach(tag => formData.append("MediumTags", tag));
         }
-
-        // Append themes
         if (data.themeTags) {
-            data.themeTags.forEach(tag => {
-                formData.append("ThemeTags", tag);
-            });
+            data.themeTags.forEach(tag => formData.append("ThemeTags", tag));
         }
 
-        // Append NSFW flag
         formData.append("IsNsfw", data.isNsfw || false);
 
         try {
             const token = localStorage.getItem("token");
-            const response = await api.post("/ArtWorks/upload", formData, {
+            await api.post("/ArtWorks/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": `Bearer ${token}`
                 }
             });
 
-            console.log("Artwork uploaded successfully:", response.data);
+            setShowModal(true); 
         } catch (error) {
             console.error("Error uploading artwork:", error.response?.data || error.message);
         }
     };
 
-    // Handle image preview when selecting a file
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -74,9 +62,9 @@ const UploadArtworkForm = () => {
     return (
         <div className="container my-5" aria-label="Upload new artwork form">
             <h2 className="text-center mb-4">Upload New Artwork</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
 
-                {/* Upload mode selection */}
+            <form onSubmit={handleSubmit(onSubmit)} className="p-4 border rounded shadow-sm bg-white">
+                {/* Upload mode */}
                 <div className="mb-4 text-center">
                     <div className="form-check form-check-inline">
                         <input
@@ -218,7 +206,46 @@ const UploadArtworkForm = () => {
                 <button type="submit" className="btn btn-primary w-100 mt-3">
                     Submit Artwork
                 </button>
+
             </form>
+
+            {/* Bootstrap Modal */}
+            {showModal && (
+                <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Success </h5>
+                                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                            </div>
+                            <div className="modal-body text-center">
+                                <p>Your artwork has been uploaded successfully!</p>
+                                <p>What would you like to do next?</p>
+                            </div>
+                            <div className="modal-footer d-flex justify-content-between">
+                                <button
+                                    className="btn btn-dark"
+                                    onClick={() => {
+                                        reset();
+                                        setImagePreview(null);
+                                        setShowModal(false);
+                                    }}
+                                >
+                                    Add Another
+                                </button>
+
+
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => navigate("/profile")}
+                                >
+                                    Go to Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
