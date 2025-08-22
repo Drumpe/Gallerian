@@ -65,9 +65,10 @@ const FrontPage = () => {
                 </div>
             </section>
 
-            <section className="container my-5">
-                <h2 className="text-center mb-4">Recent Discoveries</h2>
-                <div className="row row-cols-1 row-cols-md-3 g-4">
+            <section className="container my-5" role="region" aria-labelledby="recent-discoveries-heading">
+                <h2 id="recent-discoveries-heading" className="text-center mb-4">Recent Discoveries</h2>
+                <div id="artwork-container" className="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
+
                     {artworks.length > 0 ? (
                         artworks.map((artwork) => (
                             <div className="col" key={artwork.id}>

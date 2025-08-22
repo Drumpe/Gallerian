@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Gallerian.Server.Data;
 using Gallerian.Server.Models;
 using Gallerian.Server.Models.Dtos;
-using Gallerian.Server.Models.Dtos;
-
 
 namespace Gallerian.Server.Controllers
 {
@@ -43,8 +41,28 @@ namespace Gallerian.Server.Controllers
             }).ToList();
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<ArtWorkDto>> GetArtWork(int id)
+		[HttpGet]
+        [Route("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<ArtWorkDto>>> GetArtWorksByUser(string userId)
+        {
+            var artworks = await _context.ArtWork
+                .Where(a => a.UserId == userId)
+                .Include(a => a.Categories)
+                .ToListAsync();
+            return artworks.Select(a => new ArtWorkDto {
+                Id = a.Id,
+                UserId = a.UserId,
+                Title = a.Title,
+                ImageURL = a.ImageURL,
+                Description = a.Description,
+                Private = a.Private,
+                ForSale = a.ForSale,
+                CategoryIds = a.Categories.Select(c => c.Id).ToList()
+            }).ToList();
+		}
+
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<ArtWorkDto>> GetArtWork(int id)
         {
             var a = await _context.ArtWork
                 .Include(a => a.Categories)
