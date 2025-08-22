@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { api } from '../api';
 
-// SearchResults component for searching and displaying artwork titles
+// SearchResults component for searching and displaying artwork cards
 const SearchResults = () => {
-    // State for the title search input value
     const [searchTerm, setSearchTerm] = useState('');
-    // State for the category search input value
     const [categoryTerm, setCategoryTerm] = useState('');
-    // State for the list of artworks returned from the API
     const [artworks, setArtworks] = useState([]);
-    // State to indicate if the API request is loading
     const [loading, setLoading] = useState(false);
 
     // Function to fetch search results from the backend API
@@ -70,11 +66,30 @@ const SearchResults = () => {
                 ) : artworks.length === 0 ? (
                     <p>No artworks found.</p>
                 ) : (
-                    <ul>
+                    <div className="row row-cols-1 row-cols-md-3 g-4">
                         {artworks.map(artwork => (
-                            <li key={artwork.id}>{artwork.title}</li>
+                            <div className="col" key={artwork.id}>
+                                <div className="card h-100" data-artwork-id={artwork.id} role="button" tabIndex="0">
+                                    <div className="image-container">
+                                        <img
+                                            src={artwork.imageURL || 'https://placehold.co/400x400?text=No+Image'}
+                                            className="card-img-top"
+                                            alt={artwork.title}
+                                        />
+                                    </div>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{artwork.title}</h5>
+                                        <p className="card-text">
+                                            <small className="text-muted">By: {artwork.userId}</small>
+                                        </p>
+                                        {artwork.description && (
+                                            <p className="card-text">{artwork.description}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </section>
         </main>
