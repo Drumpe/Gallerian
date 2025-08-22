@@ -18,13 +18,24 @@ namespace Gallerian.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArtWorkDto>>> GetArtWorks()
         {
-            var artworks = await _context.ArtWork.Include(a => a.Categories).ToListAsync();
+            var artworks = await _context.ArtWork
+                .Include(a => a.Categories)
+                .Include(a => a.User)
+                .ToListAsync();
+
             return artworks.Select(a => new ArtWorkDto
             {
                 Id = a.Id,
                 UserId = a.UserId,
+                UserName = a.User?.UserName,
                 Title = a.Title,
-                ImageURL = a.ImageURL,
+                // Build full URL for frontend (so React can load it directly)
+                ImageURL = string.IsNullOrEmpty(a.ImageURL)
+                    ? null
+                    : (a.ImageURL.StartsWith("http://") || a.ImageURL.StartsWith("https://"))
+                        ? a.ImageURL
+                        : $"{Request.Scheme}://{Request.Host}{a.ImageURL}",
+
                 Description = a.Description,
                 Private = a.Private,
                 ForSale = a.ForSale,
@@ -32,23 +43,36 @@ namespace Gallerian.Server.Controllers
             }).ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<ArtWorkDto>> GetArtWork(int id)
         {
-            var a = await _context.ArtWork.Include(a => a.Categories).FirstOrDefaultAsync(a => a.Id == id);
+            var a = await _context.ArtWork
+                .Include(a => a.Categories)
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (a == null) return NotFound();
+
             return new ArtWorkDto
             {
                 Id = a.Id,
                 UserId = a.UserId,
+                UserName = a.User?.UserName,
                 Title = a.Title,
-                ImageURL = a.ImageURL,
+                // Same here for single artwork
+                ImageURL = string.IsNullOrEmpty(a.ImageURL)
+                    ? null
+                    : (a.ImageURL.StartsWith("http://") || a.ImageURL.StartsWith("https://"))
+                        ? a.ImageURL
+                        : $"{Request.Scheme}://{Request.Host}{a.ImageURL}",
+
                 Description = a.Description,
                 Private = a.Private,
                 ForSale = a.ForSale,
                 CategoryIds = a.Categories.Select(c => c.Id).ToList()
             };
         }
+
 
         [HttpPost]
         public async Task<ActionResult<ArtWorkDto>> PostArtWork([FromBody] ArtWorkDto dto)
@@ -154,16 +178,14 @@ namespace Gallerian.Server.Controllers
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
-            {
                 return Unauthorized("User not logged in");
-            }
 
             var artWork = new ArtWork
             {
                 UserId = userId,
                 Title = dto.Title,
                 Description = dto.Description,
-                ImageURL = imageUrl,
+                ImageURL = imageUrl, 
                 UploadDate = DateTime.Now,
                 Private = dto.Private ?? false,
                 ForSale = dto.ForSale ?? false,
@@ -177,19 +199,19 @@ namespace Gallerian.Server.Controllers
                 {
                     var existingCategory = await _context.Categories.FindAsync(categoryId);
                     if (existingCategory != null)
-                    {
                         artWork.Categories.Add(existingCategory);
-                    }
                 }
             }
 
             _context.ArtWork.Add(artWork);
             await _context.SaveChangesAsync();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             return Ok(new ArtWorkDto
             {
                 Id = artWork.Id,
                 UserId = artWork.UserId,
+                UserName = user?.UserName,
                 Title = artWork.Title,
                 Description = artWork.Description,
                 ImageURL = artWork.ImageURL,
@@ -198,6 +220,33 @@ namespace Gallerian.Server.Controllers
                 CategoryIds = artWork.Categories.Select(c => c.Id).ToList()
             });
         }
-    }
+
+
+        [HttpGet("local-uploads")]
+        public IActionResult GetLocalUploads()
+        {
+            try
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                if (!Directory.Exists(uploadsFolder))
+                    return Ok(new List<string>());
+
+                var files = Directory.GetFiles(uploadsFolder)
+                    .Select(file => "/uploads/" + Path.GetFileName(file))
+                    .ToList();
+
+                return Ok(files);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error while fetching uploads: {ex.Message}");
+            }
+        }
+
+
+
 
     }
+
+}

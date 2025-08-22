@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
+
+
 
 
 
@@ -130,7 +133,20 @@ namespace Gallerian.Server
 
 			app.UseHttpsRedirection();
 
-			app.UseAuthentication();
+            //  Serve static files from wwwroot
+            app.UseStaticFiles();
+
+            //  Explicitly serve uploads folder
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads")
+                ),
+                RequestPath = "/uploads"
+            });
+
+
+            app.UseAuthentication();
 			app.UseAuthorization();
 
 
