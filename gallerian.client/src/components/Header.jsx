@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { Button } from "react-bootstrap";
+
 
 const Header = () => {
     const { isAuthenticated, me, logout } = useAuth();
@@ -26,16 +28,23 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <span style={{ marginLeft: "1rem" }}>
+                            <span>
                                 Hi, {me?.username || me?.email}
-                            </span>
-                            <Button
+                                </span>
+                                <Link
+                                    to="/profile"
+                                    className="btn btn-secondary ms-2"
+                                    aria-label="Your account information"
+                                >
+                                    Profile
+                                </Link>
+                            <Link
                                     onClick={logout}
                                     className="btn btn-secondary ms-2"
                                     aria-label="Log out of your account"
                             >
                                 Logout
-                            </Button>
+                            </Link>
                         </>
                     )}
                 </div>

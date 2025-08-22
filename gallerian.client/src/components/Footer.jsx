@@ -4,12 +4,12 @@ const Footer = () => {
       <footer className="footer bg-dark text-white text-center py-4" role="contentinfo">
           <div className="container">
               <div className="row">
-                  <address>
+                  <address className="col">
                       <p>
                           <strong>Gallerian</strong><br />
                           123 Turning Torso Väg<br />
                           Malmö, Sverige 12345<br />
-                          <a href="mailto:youremail@gallerian.se">youremail@gallerian.se</a>
+                          <a href="mailto:admin@gallerian.se">admin@gallerian.se</a>
                       </p>
                   </address>
                   <div className="col-md-4">
