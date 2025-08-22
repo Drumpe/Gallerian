@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Gallerian.Server/appsettings.json
+/Gallerian.Server/appsettings.Development.json
+/Gallerian.Server/Models/Dtos/ArtWorkDto.cs
