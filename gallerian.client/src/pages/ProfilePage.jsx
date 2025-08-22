@@ -45,7 +45,7 @@ export default function Profile() {
 
         try {
             await api.delete(`/ArtWorks/${id}`);
-            setArtworks((prev) => prev.filter((art) => art.id !== id)); // حذف من الواجهة مباشرة
+            setArtworks((prev) => prev.filter((art) => art.id !== id)); 
         } catch (err) {
             console.error("Kunde inte ta bort konstverket", err);
             alert("Ett fel uppstod vid borttagning.");
