@@ -47,6 +47,10 @@ export default defineConfig({
     },
     server: {
         // TODO: Uppdatera?
+        '^/api': {   
+            target,
+            secure: false
+        },
         proxy: {
             '^/weatherforecast': {
                 target,

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { api } from "../api";
 import { Link } from "react-router-dom";
+import React from 'react';
 
 
 export default function Profile() {
@@ -61,7 +62,7 @@ export default function Profile() {
                         {/*</ul>*/}
                         <nav id="profile-actions" aria-label="Edit-Profile">
                             <Link to="/edit-profile" className="btn btn-primary w-100 mb-2">Redigera profil</Link>
-                            <button type="button" id="addArtworkBtn" className="btn btn-secondary w-100" aria-controls="addArtworkPopup" aria-expanded="false">Lägg till konstverk</button>
+                            <Link to="/upload-artwork" type="button" id="addArtworkBtn" className="btn btn-secondary w-100" aria-controls="addArtworkPopup" aria-expanded="false">Lägg till konstverk</Link>
                         </nav>
                     </section>
                 </aside>
