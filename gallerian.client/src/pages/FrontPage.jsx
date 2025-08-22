@@ -55,10 +55,9 @@ const FrontPage = () => {
                 <h2 id="recent-discoveries-heading" className="text-center mb-4">Recent Discoveries</h2>
                 <div id="artwork-container" className="row row-cols-1 row-cols-md-3 g-4" aria-live="polite" aria-atomic="true">
 
-                    {recentArtworkData.map((p, i) => (
-                        <React.Fragment key={i}>
-                            {/*TODO: länka data-artwork-id till verkligt id */}
-                            < div className="card h-100" data-artwork-id={i} role="button" tabIndex="0">
+                    {recentArtworkData.map((p) => (
+                        <React.Fragment key={p.id}>
+                            < div className="card h-100" data-artwork-id={p.id} role="button" tabIndex="0">
                                 <div className="image-container">
                                     <img src={p.image} className="card-img-top" alt={p.title} />
                                 </div>
